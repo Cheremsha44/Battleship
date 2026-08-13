@@ -6,7 +6,14 @@ export class Gameboard {
     }
     renderBoard() {
         console.table(
-            this.board.map((row) => row.map((cell) => (cell ? "S" : "~"))),
+            this.board.map((row) =>
+                row.map((cell) => {
+                    if (cell === "miss") return "M";
+                    if (cell === "hit") return "X";
+                    if (cell) return "S";
+                    return "~";
+                }),
+            ),
         );
     }
     receiveAttack(x, y) {
@@ -32,7 +39,12 @@ export class Gameboard {
                 return 123;
             }
             for (let index = 0; index < ship.length; index++) {
-                this.board[x][y + index] = ship;
+                if (this.board[y + index][x] !== null) {
+                    return "Место занято";
+                }
+            }
+            for (let index = 0; index < ship.length; index++) {
+                this.board[y + index][x] = ship;
             }
             this.ships.push(ship);
         } else if (isVertical === false) {
@@ -40,9 +52,23 @@ export class Gameboard {
                 return 123;
             }
             for (let index = 0; index < ship.length; index++) {
-                this.board[x + index][y] = ship;
+                if (this.board[y][x + index] !== null) {
+                    return "Место занято";
+                }
+            }
+            for (let index = 0; index < ship.length; index++) {
+                this.board[y][x + index] = ship;
             }
             this.ships.push(ship);
+        }
+    }
+    allSunk() {
+        if (this.ships.length > 0) {
+            return this.ships.every((ship) => {
+                return ship.isSunk() === true;
+            });
+        } else {
+            return "На доске нет кораблей";
         }
     }
 }
