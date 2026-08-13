@@ -4,34 +4,36 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="styles.css" />
+        <script type="module" src="index.js" defer></script>
         <title>Dungeons & Ashes</title>
     </head>
     <body>
         <header class="game-header">
             <h1>DUNGEONS & ASHES</h1>
             <p class="subtitle">
-                Паладины Светлолесья против Культа Некромантов
+                Paladins of Lightwood vs. the Necromancer Cult
             </p>
         </header>
 
         <main class="game-container">
-            <!-- Поле игрока -->
-            <section class="board-section player-side">
-                <h2>Лагерь Паладинов</h2>
-                <div id="player-board" class="board"></div>
-            </section>
+            <div class="boards-wrapper">
+                <section class="board-section player-side">
+                    <h2>Paladin Camp</h2>
+                    <div id="player-board" class="board"></div>
+                </section>
 
-            <!-- Поле компьютера -->
-            <section class="board-section enemy-side">
-                <h2>Склеп Некромантов</h2>
-                <div id="computer-board" class="board"></div>
-            </section>
+                <section class="board-section enemy-side">
+                    <h2>Crypt of the Necromancers</h2>
+                    <div id="computer-board" class="board"></div>
+                </section>
+            </div>
 
-            <!-- Боковой лог боя -->
             <aside class="log-section">
-                <h2>Летопись Боя</h2>
+                <h2>Chronicle of the Battle</h2>
                 <div id="combat-log" class="log-box">
-                    <p class="system-msg">Зажгите факелы... Война началась!</p>
+                    <p class="system-msg">
+                        Light the torches... The war has begun!
+                    </p>
                 </div>
             </aside>
         </main>

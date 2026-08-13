@@ -24,13 +24,15 @@ export class Gameboard {
         ) {
             this.board[y][x].hit();
             this.board[y][x] = "hit";
+            return "hit";
         } else if (this.board[y][x] === null) {
             this.miss.push([x, y]);
             this.board[y][x] = "miss";
+            return "miss";
         } else if (this.board[y][x] === "miss") {
-            return "Ты уже сюда стрелял и не попал";
+            return false;
         } else if (this.board[y][x] === "hit") {
-            return "Ты уже сюда стрелял и попал";
+            return false;
         }
     }
     placeShip(ship, x, y, isVertical) {
