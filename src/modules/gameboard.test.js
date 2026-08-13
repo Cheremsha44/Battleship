@@ -90,7 +90,7 @@ describe("Gameboard factory / class", () => {
     });
     test("Пустая доска", () => {
         const board = new Gameboard();
-        expect(board.allSunk()).toBe("На доске нет кораблей");
+        expect(board.allSunk()).toBe(false);
     });
     test("", () => {});
 });

@@ -1,0 +1,274 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Roboto:wght@400;700&display=swap");
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #0a0b10;
+    background-image:
+        radial-gradient(
+            circle at 20% 30%,
+            rgba(43, 76, 126, 0.2) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            rgba(82, 183, 136, 0.15) 0%,
+            transparent 50%
+        );
+    color: #e0e0e0;
+    font-family: "Roboto", sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    animation: ambient-pulse 12s infinite alternate ease-in-out;
+}
+
+@keyframes ambient-pulse {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+/* Header */
+.game-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.game-header h1 {
+    font-family: "Cinzel", serif;
+    font-size: 3rem;
+    color: #f3c669;
+    text-shadow:
+        0 0 15px rgba(243, 198, 105, 0.5),
+        0 0 30px rgba(0, 0, 0, 0.9);
+    letter-spacing: 3px;
+}
+
+.subtitle {
+    color: #8a8f9e;
+    font-size: 1.1rem;
+    margin-top: 6px;
+}
+
+/* Main Layout */
+.game-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 60px;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 1400px;
+    width: 100%;
+}
+
+.board-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(20, 22, 29, 0.85);
+    padding: 30px 25px 50px 25px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+}
+
+.board-section h2 {
+    font-family: "Cinzel", serif;
+    font-size: 1.4rem;
+    margin-bottom: 25px;
+}
+
+.player-side {
+    border-top: 4px solid #f3c669;
+}
+
+.player-side h2 {
+    color: #f3c669;
+    text-shadow: 0 0 8px rgba(243, 198, 105, 0.3);
+}
+
+.enemy-side {
+    border-top: 4px solid #52b788;
+}
+
+.enemy-side h2 {
+    color: #52b788;
+    text-shadow: 0 0 8px rgba(82, 183, 136, 0.3);
+}
+
+/* Isometric Board Wrapper */
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: 5px;
+    width: 360px;
+    height: 360px;
+    background: transparent;
+
+    /* 3D Isometric View */
+    transform: rotateX(60deg) rotateZ(-45deg);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.9));
+}
+
+/* 3D Cell Tiles */
+.cell {
+    background: #111318;
+    position: relative;
+    aspect-ratio: 1;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+/* Top Face of Tile */
+.cell::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #252936;
+    border: 1px solid #3b4154;
+    transform: translateZ(12px);
+    transition:
+        transform 0.15s ease,
+        background-color 0.2s ease,
+        filter 0.2s ease;
+    border-radius: 2px;
+}
+
+/* Side Edge (3D Thickness) */
+.cell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #141720;
+    transform: rotateY(90deg) translateZ(-6px);
+    width: 12px;
+    height: 100%;
+}
+
+/* Hover Effect on Enemy Side */
+.enemy-side .cell:hover::before {
+    background: #384055;
+    transform: translateZ(6px);
+    border-color: #52b788;
+}
+
+/* --- GAME STATES --- */
+
+/* Fog of War (Unrevealed Enemy Tile) */
+.enemy-side .cell::before {
+    background: #1a1d26;
+    border-color: #272c3a;
+}
+
+/* Player Ship Unit */
+.cell.ship::before {
+    background: #2a4b7c;
+    border-color: #5a82be;
+    filter: drop-shadow(0 0 8px rgba(243, 198, 105, 0.7));
+}
+
+/* Miss State */
+.cell.miss {
+    cursor: not-allowed;
+}
+
+.cell.miss::before {
+    background: #12141a;
+    border-color: #1e222d;
+    transform: translateZ(2px);
+}
+
+/* Hit State */
+.cell.hit {
+    cursor: not-allowed;
+}
+
+.cell.hit::before {
+    background: #a81c1c;
+    border-color: #ff5555;
+    filter: drop-shadow(0 0 16px #ff3333);
+    animation: hit-shake 0.3s ease-in-out;
+}
+
+/* Destroyed Unit State */
+.cell.sunk::before {
+    background: #2b0808;
+    border-color: #661111;
+    filter: grayscale(0.8);
+    transform: translateZ(2px);
+}
+
+@keyframes hit-shake {
+    0%,
+    100% {
+        transform: translateZ(12px) rotate(0deg);
+    }
+    25% {
+        transform: translateZ(16px) rotate(4deg);
+    }
+    75% {
+        transform: translateZ(16px) rotate(-4deg);
+    }
+}
+
+/* Combat Log Sidebox */
+.log-section {
+    background: rgba(20, 22, 29, 0.85);
+    border-radius: 16px;
+    padding: 25px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    border-top: 4px solid #8e9aaf;
+    backdrop-filter: blur(8px);
+}
+
+.log-section h2 {
+    font-family: "Cinzel", serif;
+    font-size: 1.3rem;
+    color: #8e9aaf;
+    margin-bottom: 15px;
+}
+
+.log-box {
+    background-color: #0c0d12;
+    border: 1px solid #232734;
+    border-radius: 8px;
+    padding: 14px;
+    flex-grow: 1;
+    height: 380px;
+    overflow-y: auto;
+    font-size: 0.88rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.system-msg {
+    color: #6c757d;
+    font-style: italic;
+}
+
+.log-entry.player-turn {
+    color: #f3c669;
+}
+
+.log-entry.enemy-turn {
+    color: #52b788;
+}

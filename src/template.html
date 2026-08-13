@@ -1,11 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles.css" />
+        <title>Dungeons & Ashes</title>
+    </head>
+    <body>
+        <header class="game-header">
+            <h1>DUNGEONS & ASHES</h1>
+            <p class="subtitle">
+                Паладины Светлолесья против Культа Некромантов
+            </p>
+        </header>
+
+        <main class="game-container">
+            <!-- Поле игрока -->
+            <section class="board-section player-side">
+                <h2>Лагерь Паладинов</h2>
+                <div id="player-board" class="board"></div>
+            </section>
+
+            <!-- Поле компьютера -->
+            <section class="board-section enemy-side">
+                <h2>Склеп Некромантов</h2>
+                <div id="computer-board" class="board"></div>
+            </section>
+
+            <!-- Боковой лог боя -->
+            <aside class="log-section">
+                <h2>Летопись Боя</h2>
+                <div id="combat-log" class="log-box">
+                    <p class="system-msg">Зажгите факелы... Война началась!</p>
+                </div>
+            </aside>
+        </main>
+    </body>
 </html>

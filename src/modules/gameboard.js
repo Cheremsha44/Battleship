@@ -68,7 +68,7 @@ export class Gameboard {
                 return ship.isSunk() === true;
             });
         } else {
-            return "На доске нет кораблей";
+            return false;
         }
     }
 }
