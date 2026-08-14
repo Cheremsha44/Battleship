@@ -71,13 +71,13 @@ body {
     width: 100%;
 }
 
-.boards-wrapper {
+.placement-mode .boards-wrapper {
     display: flex;
+    flex-direction: row-reverse; /* Магия CSS: правая колонка становится слева, а доска — справа */
     justify-content: center;
     align-items: center;
-    gap: 250px;
+    gap: 80px;
     width: 100%;
-    margin-top: 20px;
 }
 
 .board-section {
@@ -85,7 +85,6 @@ body {
     flex-direction: column;
     align-items: center;
     background: transparent;
-    padding: 0;
     box-shadow: none;
     backdrop-filter: none;
 }
@@ -280,4 +279,168 @@ body {
 
 .log-entry.enemy-turn {
     color: #52b788;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.controls-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Выравнивание по левому краю для аккуратности */
+    gap: 15px;
+    background: rgba(20, 22, 29, 0.85);
+    padding: 25px 30px;
+    border-radius: 16px;
+    border: 1px solid #2a2e3d;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    max-width: 380px;
+}
+
+.controls-section h2 {
+    font-family: "Cinzel", serif;
+    color: #f3c669;
+    font-size: 1.4rem;
+}
+
+.instruction {
+    color: #8a8f9e;
+    font-size: 0.95rem;
+}
+
+.buttons-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Расстояние МЕЖДУ кнопками */
+    width: 100%;
+    margin-top: 24px; /* Отступ СВЕРХУ от инвентаря */
+}
+
+/* Фэнтези кнопки */
+.game-btn {
+    width: 100%;
+    padding: 13px 20px;
+    background: linear-gradient(180deg, #222634 0%, #161822 100%);
+    color: #c8cedc;
+    border: 1px solid #3b4256;
+    border-radius: 8px;
+    font-family: "Cinzel", serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Ховер на обычную кнопку */
+.game-btn:hover:not(:disabled) {
+    background: linear-gradient(180deg, #2c3246 0%, #1e2230 100%);
+    border-color: #f3c669;
+    color: #f3c669;
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.7),
+        0 0 12px rgba(243, 198, 105, 0.3);
+}
+
+.game-btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Главная кнопка В БОЙ (Когда активна) */
+.game-btn.primary-btn {
+    background: linear-gradient(180deg, #991b1b 0%, #6b1111 100%);
+    border-color: #ef4444;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.game-btn.primary-btn:hover:not(:disabled) {
+    background: linear-gradient(180deg, #b91c1c 0%, #801414 100%);
+    border-color: #ff6b6b;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+}
+
+/* Выключенная кнопка (disabled) — заблокированный стальной замок */
+.game-btn:disabled {
+    background: #11131a;
+    border-color: #1e2230;
+    color: #4b5563;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.5;
+    text-shadow: none;
+}
+
+/* Инвентарь юнитов */
+.units-dock {
+    display: flex;
+    flex-direction: column; /* Юниты идут друг под другом */
+    gap: 12px;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.unit-card {
+    display: flex;
+    flex-direction: row; /* Название, клетки и кол-во в одну линию */
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: #141722;
+    border: 1px solid #2b3143;
+    border-radius: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.unit-card:hover {
+    border-color: #f3c669;
+    transform: translateX(4px); /* Легкий сдвиг вправо при наведении */
+}
+
+/* Активный юнит (который сейчас ставим) */
+.unit-card.active {
+    border-color: #f3c669;
+    background: #1e2436;
+    box-shadow: 0 0 15px rgba(243, 198, 105, 0.25);
+}
+
+/* Расставленный юнит (закончился) */
+.unit-card.placed {
+    opacity: 0.3;
+    cursor: not-allowed;
+    border-color: #1a1d27;
+}
+
+.unit-name {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #e0e0e0;
+}
+
+.unit-cells {
+    display: flex;
+    gap: 3px;
+}
+
+.mini-cell {
+    width: 14px;
+    height: 14px;
+    background: #2a4b7c;
+    border: 1px solid #5a82be;
+    border-radius: 2px;
+}
+
+.unit-count {
+    font-size: 0.75rem;
+    color: #f3c669;
 }

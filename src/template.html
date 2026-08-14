@@ -15,24 +15,103 @@
             </p>
         </header>
 
-        <main class="game-container">
+        <main class="game-container placement-mode">
             <div class="boards-wrapper">
+                <!-- Панель управления (Благодаря flex-direction: row-reverse будет СЛЕВА) -->
+                <div id="placement-controls" class="controls-section">
+                    <h2>Pre-battle Setup</h2>
+                    <p class="instruction">
+                        Deploy your units before entering the crypt
+                    </p>
+
+                    <div class="units-dock">
+                        <div
+                            class="unit-card active"
+                            data-type="leviathan"
+                            data-size="4"
+                        >
+                            <span class="unit-name">Holy Leviathan</span>
+                            <div class="unit-cells">
+                                <span class="mini-cell"></span>
+                                <span class="mini-cell"></span>
+                                <span class="mini-cell"></span>
+                                <span class="mini-cell"></span>
+                            </div>
+                            <span class="unit-count">x1</span>
+                        </div>
+
+                        <div
+                            class="unit-card"
+                            data-type="paladins"
+                            data-size="3"
+                        >
+                            <span class="unit-name">Paladin Squad</span>
+                            <div class="unit-cells">
+                                <span class="mini-cell"></span>
+                                <span class="mini-cell"></span>
+                                <span class="mini-cell"></span>
+                            </div>
+                            <span class="unit-count">x2</span>
+                        </div>
+
+                        <div
+                            class="unit-card"
+                            data-type="gryphons"
+                            data-size="2"
+                        >
+                            <span class="unit-name">Gryphon Scouts</span>
+                            <div class="unit-cells">
+                                <span class="mini-cell"></span>
+                                <span class="mini-cell"></span>
+                            </div>
+                            <span class="unit-count">x3</span>
+                        </div>
+
+                        <div class="unit-card" data-type="totem" data-size="1">
+                            <span class="unit-name">Holy Totem</span>
+                            <div class="unit-cells">
+                                <span class="mini-cell"></span>
+                            </div>
+                            <span class="unit-count">x4</span>
+                        </div>
+                    </div>
+
+                    <div class="buttons-group">
+                        <button id="rotate-btn" class="game-btn">
+                            Rotate (Horizontal)
+                        </button>
+                        <button id="random-btn" class="game-btn">
+                            Auto-Deploy
+                        </button>
+                        <button
+                            id="start-btn"
+                            class="game-btn primary-btn"
+                            disabled
+                        >
+                            ENTER BATTLE!
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Твоё поле (Будет СПРАВА) -->
                 <section class="board-section player-side">
-                    <h2>Paladin Camp</h2>
+                    <h2>Paladins' Camp</h2>
                     <div id="player-board" class="board"></div>
                 </section>
 
-                <section class="board-section enemy-side">
-                    <h2>Crypt of the Necromancers</h2>
+                <!-- Поле врага (Скрыто) -->
+                <section class="board-section enemy-side hidden">
+                    <h2>Necromancers' Crypt</h2>
                     <div id="computer-board" class="board"></div>
                 </section>
             </div>
 
-            <aside class="log-section">
-                <h2>Chronicle of the Battle</h2>
+            <!-- Лог боя (Скрыт) -->
+            <aside class="log-section hidden">
+                <h2>Combat Log</h2>
                 <div id="combat-log" class="log-box">
                     <p class="system-msg">
-                        Light the torches... The war has begun!
+                        Light the torches... The battle begins!
                     </p>
                 </div>
             </aside>

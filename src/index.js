@@ -6,6 +6,7 @@ import { Ship } from "./modules/ship.js";
 const playerBoard = document.querySelector("#player-board");
 const enemyBoard = document.querySelector("#computer-board");
 const logContainer = document.querySelector("#combat-log");
+const autoDeployBtn = document.querySelector("#random-btn");
 
 // UI on html
 createBoard(playerBoard);
@@ -19,21 +20,10 @@ const enemyGameboard = new Gameboard();
 const player = new Player(playerGameboard, "human");
 const enemy = new Player(enemyGameboard, "enemy");
 
-// Make ships
-const enemyShip1 = new Ship(1);
-const enemyShip2 = new Ship(2);
-const enemyShip3 = new Ship(3);
-const myShip1 = new Ship(1);
-const myShip2 = new Ship(2);
-const myShip3 = new Ship(3);
-
-enemyGameboard.placeShip(enemyShip1, 0, 0, true);
-enemyGameboard.placeShip(enemyShip2, 3, 3, false);
-enemyGameboard.placeShip(enemyShip3, 6, 6, true);
-
-playerGameboard.placeShip(myShip1, 0, 0, true);
-playerGameboard.placeShip(myShip2, 3, 3, false);
-playerGameboard.placeShip(myShip3, 6, 6, true);
+autoDeployBtn.addEventListener("click", (e) => {
+    playerGameboard.placeShipsRandomly();
+    updateBoardUI(playerBoard, playerGameboard);
+});
 
 updateBoardUI(playerBoard, playerGameboard);
 

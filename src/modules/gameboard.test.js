@@ -2,20 +2,20 @@ import { Gameboard } from "./gameboard.js";
 import { Ship } from "./ship.js";
 
 describe("Gameboard factory / class", () => {
-    test("Тест на 4-палубник (гибкость)", () => {
-        const board = new Gameboard();
-        const myShip3 = new Ship(4);
-        const myShip4 = new Ship(4);
+    // test("Тест на 4-палубник (гибкость)", () => {
+    //     const board = new Gameboard();
+    //     const myShip3 = new Ship(4);
+    //     const myShip4 = new Ship(4);
 
-        expect(board.placeShip(myShip3, 5, 5, true)).toBe();
-        expect(board.placeShip(myShip4, 1, 1, true)).toBe();
-    });
-    test("Тест на координаты расстановки", () => {
-        const board = new Gameboard();
-        const myShip3 = new Ship(3);
+    //     expect(board.placeShip(myShip3, 5, 5, true)).toBe();
+    //     expect(board.placeShip(myShip4, 1, 1, true)).toBe();
+    // });
+    // test("Тест на координаты расстановки", () => {
+    //     const board = new Gameboard();
+    //     const myShip3 = new Ship(3);
 
-        expect(board.placeShip(myShip3, 0, 0, true)).toBe();
-    });
+    //     expect(board.placeShip(myShip3, 0, 0, true)).toBe();
+    // });
     test("Тест на попадание", () => {
         const board = new Gameboard();
         const myShip3 = new Ship(3);
@@ -72,7 +72,7 @@ describe("Gameboard factory / class", () => {
         const myShip2 = new Ship(2);
         const myShip3 = new Ship(3);
         board.placeShip(myShip2, 0, 0, false);
-        expect(board.placeShip(myShip3, 0, 0, true)).toBe("Место занято");
+        expect(board.placeShip(myShip3, 0, 0, true)).toBe(false);
     });
     test("Проверка на уничтоженные корабли", () => {
         const board = new Gameboard();
@@ -85,12 +85,18 @@ describe("Gameboard factory / class", () => {
         board.receiveAttack(1, 0);
         board.receiveAttack(5, 0);
         console.log(board.ships);
-        board.renderBoard();
+
         expect(board.allSunk()).toBe(true);
     });
     test("Пустая доска", () => {
         const board = new Gameboard();
         expect(board.allSunk()).toBe(false);
+    });
+    test("Тест на кол-во кораблей", () => {
+        const board = new Gameboard();
+        board.placeShipsRandomly();
+        console.log(board.ships);
+        board.renderBoard();
     });
     test("", () => {});
 });

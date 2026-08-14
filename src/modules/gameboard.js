@@ -1,8 +1,34 @@
+import { Ship } from "./ship.js";
+
 export class Gameboard {
     constructor() {
         this.board = Array.from({ length: 10 }, () => Array(10).fill(null));
         this.miss = [];
         this.ships = [];
+    }
+    placeShipsRandomly() {
+        this.ships = [];
+        this.miss = [];
+        this.board = Array.from({ length: 10 }, () => Array(10).fill(null));
+        const shipSizes = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
+        this.ships = shipSizes.map((size) => new Ship(size));
+
+        for (const size of shipSizes) {
+            let placed = false;
+
+            while (!placed) {
+                const randomX = Math.floor(Math.random() * 10);
+                const randomY = Math.floor(Math.random() * 10);
+                const isVertical = Math.random() < 0.5;
+
+                placed = this.placeShip(
+                    new Ship(size),
+                    randomX,
+                    randomY,
+                    isVertical,
+                );
+            }
+        }
     }
     renderBoard() {
         console.table(
@@ -38,30 +64,52 @@ export class Gameboard {
     placeShip(ship, x, y, isVertical) {
         if (isVertical === true) {
             if (y + ship.length > 10) {
-                return 123;
+                return false;
             }
             for (let index = 0; index < ship.length; index++) {
-                if (this.board[y + index][x] !== null) {
-                    return "Место занято";
+                if (
+                    this.board[y + index]?.[x] ||
+                    this.board[y + index - 1]?.[x] ||
+                    this.board[y + index + 1]?.[x] ||
+                    this.board[y + index]?.[x - 1] ||
+                    this.board[y + index]?.[x + 1] ||
+                    this.board[y + index - 1]?.[x - 1] ||
+                    this.board[y + index - 1]?.[x + 1] ||
+                    this.board[y + index + 1]?.[x - 1] ||
+                    this.board[y + index + 1]?.[x + 1]
+                ) {
+                    return false;
                 }
             }
             for (let index = 0; index < ship.length; index++) {
                 this.board[y + index][x] = ship;
             }
             this.ships.push(ship);
+            return true;
         } else if (isVertical === false) {
             if (x + ship.length > 10) {
-                return 123;
+                return false;
             }
             for (let index = 0; index < ship.length; index++) {
-                if (this.board[y][x + index] !== null) {
-                    return "Место занято";
+                if (
+                    this.board[y]?.[x + index] ||
+                    this.board[y]?.[x + index - 1] ||
+                    this.board[y]?.[x + index + 1] ||
+                    this.board[y - 1]?.[x + index] ||
+                    this.board[y + 1]?.[x + index] ||
+                    this.board[y - 1]?.[x + index - 1] ||
+                    this.board[y + 1]?.[x + index - 1] ||
+                    this.board[y - 1]?.[x + index + 1] ||
+                    this.board[y + 1]?.[x + index + 1]
+                ) {
+                    return false;
                 }
             }
             for (let index = 0; index < ship.length; index++) {
                 this.board[y][x + index] = ship;
             }
             this.ships.push(ship);
+            return true;
         }
     }
     allSunk() {
