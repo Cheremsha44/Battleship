@@ -47,3 +47,23 @@ export function updateStartButton(button, board) {
         button.disabled = true;
     }
 }
+
+function getPlacedShipCount(gameBoard, size) {
+    return gameBoard.ships.filter((ship) => ship.length === size).length;
+}
+
+export function updateUnitsDock(gameBoard) {
+    const maxShips = { 4: 1, 3: 2, 2: 3, 1: 4 };
+    const cards = document.querySelectorAll(".unit-card");
+
+    cards.forEach((card) => {
+        const countSpan = card.querySelector(".unit-count");
+        const size = Number(card.dataset.size);
+
+        const placedCount = getPlacedShipCount(gameBoard, size);
+
+        const remaining = maxShips[size] - placedCount;
+
+        countSpan.textContent = `x${remaining}`;
+    });
+}

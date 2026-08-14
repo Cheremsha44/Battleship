@@ -3,6 +3,7 @@ import {
     updateBoardUI,
     addLogMessage,
     updateStartButton,
+    updateUnitsDock,
 } from "./modules/ui.js";
 import { Gameboard } from "./modules/gameboard.js";
 import { Player } from "./modules/player.js";
@@ -17,6 +18,9 @@ const gameContainer = document.querySelector(".game-container");
 const placementControls = document.querySelector("#placement-controls");
 const enemySide = document.querySelector(".enemy-side");
 const logSection = document.querySelector(".log-section");
+const rotateBtn = document.querySelector("#rotate-btn");
+let currentDraggingSize = null;
+let isVertical = false;
 
 // UI on html
 createBoard(playerBoard);
@@ -30,12 +34,64 @@ const enemyGameboard = new Gameboard();
 const player = new Player(playerGameboard, "human");
 const enemy = new Player(enemyGameboard, "enemy");
 
+rotateBtn.addEventListener("click", () => {
+    isVertical = !isVertical;
+
+    rotateBtn.textContent = isVertical
+        ? "ROTATE (VERTICAL)"
+        : "ROTATE (HORIZONTAL)";
+});
+
+function initDragAndDrop(gameBoard) {
+    document.querySelectorAll(".unit-card").forEach((card) => {
+        card.addEventListener("dragstart", () => {
+            currentDraggingSize = Number(card.dataset.size);
+        });
+    });
+
+    const cells = playerBoard.querySelectorAll(".cell");
+
+    cells.forEach((cell) => {
+        cell.addEventListener("dragover", (e) => {
+            e.preventDefault();
+        });
+
+        cell.addEventListener("drop", (e) => {
+            e.preventDefault();
+            if (!currentDraggingSize) return;
+
+            const targetCell = e.target.closest("[data-x]");
+            if (!targetCell) return;
+
+            const x = Number(targetCell.dataset.x);
+            const y = Number(targetCell.dataset.y);
+
+            const placed = gameBoard.placeShip(
+                new Ship(currentDraggingSize),
+                x,
+                y,
+                isVertical,
+            );
+
+            if (placed) {
+                updateBoardUI(playerBoard, gameBoard);
+                updateUnitsDock(gameBoard);
+                updateStartButton(startBtn, gameBoard);
+            }
+        });
+    });
+}
+
+initDragAndDrop(playerGameboard);
+
+updateUnitsDock(playerGameboard);
 updateStartButton(startBtn, playerGameboard);
 
 autoDeployBtn.addEventListener("click", (e) => {
     playerGameboard.placeShipsRandomly();
     updateBoardUI(playerBoard, playerGameboard);
     updateStartButton(startBtn, playerGameboard);
+    updateUnitsDock(playerGameboard);
 });
 
 startBtn.addEventListener("click", (e) => {
