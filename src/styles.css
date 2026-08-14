@@ -71,6 +71,15 @@ body {
     width: 100%;
 }
 
+.boards-wrapper {
+    display: flex;
+    flex-direction: row; /* По умолчанию строим всё горизонтально в ряд */
+    justify-content: center;
+    align-items: center;
+    gap: 200px; /* Просвет между 3D-полями, чтобы ромбы не пересекались */
+    width: 100%;
+}
+
 .placement-mode .boards-wrapper {
     display: flex;
     flex-direction: row-reverse; /* Магия CSS: правая колонка становится слева, а доска — справа */

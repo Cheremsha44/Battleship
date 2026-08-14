@@ -39,3 +39,11 @@ export function addLogMessage(message, type, containerLog) {
 
     containerLog.scrollTop = containerLog.scrollHeight;
 }
+
+export function updateStartButton(button, board) {
+    if (board.ships.length === 10) {
+        button.disabled = false;
+    } else {
+        button.disabled = true;
+    }
+}

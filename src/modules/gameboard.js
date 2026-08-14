@@ -11,7 +11,6 @@ export class Gameboard {
         this.miss = [];
         this.board = Array.from({ length: 10 }, () => Array(10).fill(null));
         const shipSizes = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-        this.ships = shipSizes.map((size) => new Ship(size));
 
         for (const size of shipSizes) {
             let placed = false;

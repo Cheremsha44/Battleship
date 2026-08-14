@@ -1,4 +1,9 @@
-import { createBoard, updateBoardUI, addLogMessage } from "./modules/ui.js";
+import {
+    createBoard,
+    updateBoardUI,
+    addLogMessage,
+    updateStartButton,
+} from "./modules/ui.js";
 import { Gameboard } from "./modules/gameboard.js";
 import { Player } from "./modules/player.js";
 import { Ship } from "./modules/ship.js";
@@ -7,6 +12,11 @@ const playerBoard = document.querySelector("#player-board");
 const enemyBoard = document.querySelector("#computer-board");
 const logContainer = document.querySelector("#combat-log");
 const autoDeployBtn = document.querySelector("#random-btn");
+const startBtn = document.querySelector("#start-btn");
+const gameContainer = document.querySelector(".game-container");
+const placementControls = document.querySelector("#placement-controls");
+const enemySide = document.querySelector(".enemy-side");
+const logSection = document.querySelector(".log-section");
 
 // UI on html
 createBoard(playerBoard);
@@ -20,9 +30,20 @@ const enemyGameboard = new Gameboard();
 const player = new Player(playerGameboard, "human");
 const enemy = new Player(enemyGameboard, "enemy");
 
+updateStartButton(startBtn, playerGameboard);
+
 autoDeployBtn.addEventListener("click", (e) => {
     playerGameboard.placeShipsRandomly();
     updateBoardUI(playerBoard, playerGameboard);
+    updateStartButton(startBtn, playerGameboard);
+});
+
+startBtn.addEventListener("click", (e) => {
+    enemyGameboard.placeShipsRandomly();
+    gameContainer.classList.remove("placement-mode");
+    placementControls.classList.add("hidden");
+    enemySide.classList.remove("hidden");
+    logSection.classList.remove("hidden");
 });
 
 updateBoardUI(playerBoard, playerGameboard);
